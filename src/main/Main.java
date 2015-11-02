@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 
 public class Main extends JFrame {
@@ -9,8 +11,8 @@ public class Main extends JFrame {
 	}
 	
 	public void setUI() {
-		setLayout(null);
-		add(new Person());
+		setResizable(false);
+		add(new Board());
 		setTitle("prototype-D-animation");
 		setSize(400, 300);
 		setLocationRelativeTo(null);
@@ -19,7 +21,12 @@ public class Main extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new Main();
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new Main();
+			}
+		});
 	}
 
 }

@@ -1,24 +1,27 @@
 package main;
 
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class Person extends JPanel implements KeyListener{
+public class Person extends JPanel implements KeyListener {
 	private ImageIcon[] frontImg;
 	private ImageIcon[] backImg;
 	private ImageIcon[] leftImg;
 	private ImageIcon[] rightImg;
-	private Image img;
+	private ImageIcon[] imgs;
+	
 	private int px;
 	private int py;
 	
+	private int change;
+	private int click = 0;
+	
 	public Person() {
 		initPerson();
-		setFocusable(true);
+		//setFocusable(true);
 		addKeyListener(this);
 	}
 	
@@ -54,55 +57,65 @@ public class Person extends JPanel implements KeyListener{
 			rightImg[i] = new ImageIcon(imgPath);
 		}
 
-		img = frontImg[0].getImage();
-		px = 165;
-		py = 100;
+		imgs = frontImg;
+		px = 170;
+		py = 110;
 		setLocation(px, py);
 		setSize(100, 100);
 	}
 	
-	public Image getImage() {
-		return img;
+	public ImageIcon[] getImages() {
+		return imgs;
 	}
 	
-	private int click=0;
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		
 		if(key == KeyEvent.VK_UP) {
-			img = backImg[(click++)%4].getImage();
+			imgs = backImg;
+			change = 1;
 		}
 		
 		if(key == KeyEvent.VK_DOWN) {
-			img = frontImg[(click++)%4].getImage();
+			imgs = frontImg;
+			change = 1;
 		}
 		
 		if(key == KeyEvent.VK_LEFT) {
-			img = leftImg[(click++)%4].getImage();
+			imgs = leftImg;
+			change = 1;
 		}
 		
 		if(key == KeyEvent.VK_RIGHT) {
-			img = rightImg[(click++)%4].getImage();
+			imgs = rightImg;
+			change = 1;
 		}
 		
 		if(key == KeyEvent.VK_SPACE) {
-			//System.out.println("SPACE");
-			img = frontImg[0].getImage();
+			imgs = frontImg;
+			change = 0;
+			click = 0;
 		}
-		repaint();
+		
 	}
 
 	public void keyReleased(KeyEvent e) {
+		change = 0;
 	}
-	
+
+	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
-	
-	@Override
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		g.drawImage(img, 0, 0, null);
+
+	public int getChange() {
+		return change;
+	}
+
+	public int getClick() {
+		return click;
+	}
+	public void setClick(int i){
+		click = i;
 	}
 }
