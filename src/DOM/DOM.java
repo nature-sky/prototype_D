@@ -13,8 +13,6 @@ public class DOM {
 	private int clientno;
 	private TCPCM tcpcm;
 	private HashMap<Integer, Point> initLocationMap;
-	private HashMap<Integer, Item> itemInfoMap;
-	
 	private HashMap<Integer, Character> characterMap;
 	private HashMap<Integer, Item> itemMap;
     
@@ -22,7 +20,6 @@ public class DOM {
 		this.clientno = clientno;
 		this.tcpcm = tcpcm;
 		this.initLocationMap = new HashMap<Integer, Point>();
-		this.itemInfoMap = new HashMap<Integer, Item>();
 		this.characterMap = new HashMap<Integer, Character>();
 		this.itemMap = new HashMap<Integer, Item>();
 	}
@@ -33,17 +30,15 @@ public class DOM {
 				         (int)(initLocationMap.get(clientno).getY())));
     }
   
-    public void addItem(String name, int index, boolean shared) {
-	    itemMap.put(index, new Item(name, index, shared, 
-	    		   (int)(itemInfoMap.get(index).getX()), 
-		           (int)(itemInfoMap.get(index).getY())));
+    public void addItem(String name, int index, boolean shared, int x, int y) {
+	    itemMap.put(index, new Item(name, index, shared, x, y));
     }
   
     public void updateVirtualCharacter(int clientno, int dir, int speed, int x, int y) {
  	    characterMap.get(clientno).updateVirtualCharacter(dir, speed, x, y);
     }
   
-    public void updateItem(int index, boolean shared, int owner) {
+    public void updateItem(int index, boolean shared, int owner, int x, int y) {
     	Item target = itemMap.get(index);
     	if(target.getOwner() != -1) {
     		 int oldOwner = target.getOwner();
@@ -52,6 +47,8 @@ public class DOM {
     	
     	target.setShared(shared);
     	target.setOwner(owner);
+    	target.setX(x);
+    	target.setY(y);
     	characterMap.get(owner).getItemList().add(target);	  
     }
   
@@ -77,8 +74,8 @@ public class DOM {
     	double distance = 0;
     	
     	for(Integer i : itemMap.keySet()) {
-    		itemX = itemInfoMap.get(i).getX();
-    		itemY = itemInfoMap.get(i).getY();
+    		itemX = itemMap.get(i).getX();
+    		itemY = itemMap.get(i).getY();
     		
     		Point current = getVirtualCharacterXY();
     		characterX = (int)current.getX();
@@ -101,10 +98,6 @@ public class DOM {
     
     public void setInitLocationMap(HashMap<Integer, Point> initLocationMap) {
     	this.initLocationMap = initLocationMap;
-    }
-    
-    public void setItemInfoMap(HashMap<Integer, Item> itemInfoMap) {
-    	this.itemInfoMap = itemInfoMap;
     }
     
     public int getClientNo() {

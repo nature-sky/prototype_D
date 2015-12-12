@@ -3,6 +3,7 @@ package SpriteRE;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -17,8 +18,11 @@ import java.text.AttributedCharacterIterator;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import main.Item;
+import main.Main;
 import main.Sprite;
 
 import org.junit.After;
@@ -31,7 +35,7 @@ import TCPCM.TCPCM;
 import CDC.CDC;
 import DOM.DOM;
 
-public class SpriteRETest {
+public class SpriteRETest extends JPanel{
 	CDC cdcTest = new CDC();
 	DOM domTest = new DOM(0, new TCPCM());
 	SpriteRE spriteRETest;
@@ -39,7 +43,6 @@ public class SpriteRETest {
 	@Before
 	public void setUp() throws Exception {
 		domTest.setInitLocationMap(cdcTest.sendInitLocationMap());
-		domTest.setItemInfoMap(cdcTest.sendItemInfoMap());
 		spriteRETest = new SpriteRE(domTest);
 	}
 
@@ -49,13 +52,15 @@ public class SpriteRETest {
 
 	@Test
 	public void testRenderSprites() {
-		domTest.addItem("butterfly", 5, true);
+		domTest.addItem("butterfly", 5, true, 100, 10);
 		spriteRETest.renderSprites();
-		
+ 		
 		BufferedImage expectedImg = null;
 		BufferedImage actualImg = null;
 		
 		for(Sprite s : spriteRETest.getDOMList()) {
+			
+			System.out.println("yyyy");
 			Item target = (Item)s;
 			try {
 				expectedImg = ImageIO.read(new File("/images/item/butterfly.gif"));
@@ -63,12 +68,11 @@ public class SpriteRETest {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			compareRasterImages(expectedImg, actualImg);
+			compareImages(expectedImg, actualImg);
 		}
-	
 	}
 	
-	private void compareRasterImages(BufferedImage expectedImg, BufferedImage actualImg) throws AssertionError {
+	private void compareImages(BufferedImage expectedImg, BufferedImage actualImg) throws AssertionError {
 	    int minX = expectedImg.getMinX();
 	    int minY = expectedImg.getMinY();
 	    int maxX = expectedImg.getMinX() + expectedImg.getWidth();
@@ -81,9 +85,7 @@ public class SpriteRETest {
 	    for (int x = minX; x < maxX; x++){
 	        for (int y = minY; y < maxY; y++) {
 	            assertEquals(expectedImg.getRGB(x, y), actualImg.getRGB(x, y));
-	            System.out.println("Finish Checking");
 	        }
 	    }
-	    System.out.println("Finish Checking");
 	}
 }

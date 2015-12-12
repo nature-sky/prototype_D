@@ -30,7 +30,8 @@ public class CDC {
 	
 	public void addVirtualCharcter(int clientno) {
 		characterMap.put(clientno, new Character(0, 0, 
-				(int)(initLocationMap.get(clientno).getX()), (int)(initLocationMap.get(clientno).getY())));
+				         (int)(initLocationMap.get(clientno).getX()), 
+				         (int)(initLocationMap.get(clientno).getY())));
 	}
 	
 	public void additem(String name, int index, boolean shared, int x, int y) {

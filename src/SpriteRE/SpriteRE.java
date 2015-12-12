@@ -43,6 +43,7 @@ public class SpriteRE extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
+	    
 	    DOMList = dom.getAllDynamicObjects();
 		for(Sprite s : DOMList) {
 			if(s instanceof Character) {
@@ -58,6 +59,7 @@ public class SpriteRE extends JPanel implements ActionListener {
 				g.drawImage(showImg.getImage(), item.getX(), item.getY(), this); 
 			}
 	    }
+		
 	}
 	
 	private class TAdapter extends KeyAdapter {

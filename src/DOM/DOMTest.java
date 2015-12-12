@@ -21,7 +21,6 @@ public class DOMTest {
 	public void setUp() throws Exception {
 		domTest = new DOM(clientno, new TCPCM());
 		domTest.setInitLocationMap(cdcTest.sendInitLocationMap());
-		domTest.setItemInfoMap(cdcTest.sendItemInfoMap());
 	}
 
 	@After
@@ -41,13 +40,15 @@ public class DOMTest {
 
 	@Test
 	public void testAddItem() {
-		domTest.addItem("butterfly", 5, true);
+		domTest.addItem("butterfly", 5, true, 100, 10);
 		assertEquals(1, domTest.getItemMap().size());
 		
 		Item i = domTest.getItemMap().get(5);
 		assertEquals("butterfly", i.getName());
 		assertEquals(5, i.getIndex());
 		assertEquals(true, i.getShared());
+		assertEquals(100, i.getX());
+		assertEquals(10, i.getY());
 	}
 
 	@Test
@@ -71,34 +72,40 @@ public class DOMTest {
 		domTest.addVirtualCharacter(0);
 		domTest.addVirtualCharacter(1);
 		
-		domTest.addItem("flower", 6, true);
+		domTest.addItem("flower", 6, true, 200, 10);
 		Item i = domTest.getItemMap().get(6);
 		assertEquals("flower", i.getName());
 		assertEquals(6, i.getIndex());
 		assertEquals(true, i.getShared());
 		assertEquals(-1, i.getOwner());
+		assertEquals(200, i.getX());
+		assertEquals(10, i.getY());
 		
-		domTest.updateItem(6, false, 0);
+		domTest.updateItem(6, false, 0, 250, 50);
 		assertEquals("flower", i.getName());
 		assertEquals(6, i.getIndex());
 		assertEquals(false, i.getShared());
 		assertEquals(0, i.getOwner());
 		assertEquals(1, domTest.getCharacterMap().get(0).getItemList().size());
+		assertEquals(250, i.getX());
+		assertEquals(50, i.getY());
 		
-		domTest.updateItem(6, true, 1);
+		domTest.updateItem(6, true, 1, 300, 100);
 		assertEquals("flower", i.getName());
 		assertEquals(6, i.getIndex());
 		assertEquals(true, i.getShared());
 		assertEquals(1, i.getOwner());
 		assertEquals(0, domTest.getCharacterMap().get(0).getItemList().size());
 		assertEquals(1, domTest.getCharacterMap().get(1).getItemList().size());
+		assertEquals(300, i.getX());
+		assertEquals(100, i.getY());
 	}
 
 	@Test
 	public void testGetAllDynamicObjects() {
 		domTest.addVirtualCharacter(2);
 		domTest.addVirtualCharacter(3);
-		domTest.addItem("butterfly", 5, false);
+		domTest.addItem("butterfly", 5, false, 100, 10);
 		assertEquals(3, domTest.getCharacterMap().size() + domTest.getItemMap().size());
 	}
 
@@ -114,8 +121,8 @@ public class DOMTest {
 	@Test
 	public void testKeyGETPressed() {
 		domTest.addVirtualCharacter(clientno);
-		domTest.addItem("butterfly", 5, true); // (100, 10)
-		domTest.addItem("flower", 6, true);   // (200, 10)
+		domTest.addItem("butterfly", 5, true, 100, 10);
+		domTest.addItem("flower", 6, true, 200, 10);   
 		
 		domTest.updateVirtualCharacter(clientno, 2, 10, 0, 10);
 		domTest.keyGETPressed();
