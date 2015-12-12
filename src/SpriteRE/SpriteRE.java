@@ -37,14 +37,13 @@ public class SpriteRE extends JPanel implements ActionListener {
     }
 	
 	public void renderSprites() {
+		DOMList = dom.getAllDynamicObjects();
 		repaint();
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-	    
-	    DOMList = dom.getAllDynamicObjects();
 		for(Sprite s : DOMList) {
 			if(s instanceof Character) {
 				Character person = (Character)s;
@@ -55,8 +54,7 @@ public class SpriteRE extends JPanel implements ActionListener {
 			
 			else if(s instanceof Item) {
 				Item item = (Item)s;
-				ImageIcon showImg = item.getImage();
-				g.drawImage(showImg.getImage(), item.getX(), item.getY(), this); 
+				g.drawImage(item.getImage(), item.getX(), item.getY(), this); 
 			}
 	    }
 		

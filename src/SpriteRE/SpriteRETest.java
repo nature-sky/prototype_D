@@ -2,35 +2,17 @@ package SpriteRE;
 
 import static org.junit.Assert.*;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.io.File;
-import java.io.IOException;
-import java.text.AttributedCharacterIterator;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import javax.swing.JFrame;
+import sun.awt.image.ToolkitImage;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import main.Item;
-import main.Main;
 import main.Sprite;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import TCPCM.TCPCM;
 import CDC.CDC;
 import DOM.DOM;
@@ -52,22 +34,19 @@ public class SpriteRETest extends JPanel{
 
 	@Test
 	public void testRenderSprites() {
-		domTest.addItem("butterfly", 5, true, 100, 10);
+		//domTest.addVirtualCharacter(1);
+		domTest.addItem("butterfly", 5, true, 200, 10);
 		spriteRETest.renderSprites();
+		assertEquals(1, spriteRETest.getDOMList().size());
  		
 		BufferedImage expectedImg = null;
 		BufferedImage actualImg = null;
 		
 		for(Sprite s : spriteRETest.getDOMList()) {
-			
-			System.out.println("yyyy");
 			Item target = (Item)s;
-			try {
-				expectedImg = ImageIO.read(new File("/images/item/butterfly.gif"));
-				actualImg = ImageIO.read((ImageInputStream) target.getImage().getImage());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			ImageIcon img = new ImageIcon("images/item/5.gif");
+			expectedImg = ((ToolkitImage)img.getImage()).getBufferedImage();
+			actualImg = ((ToolkitImage)target.getImage()).getBufferedImage();
 			compareImages(expectedImg, actualImg);
 		}
 	}

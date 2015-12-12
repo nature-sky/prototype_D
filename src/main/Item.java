@@ -1,7 +1,7 @@
 package main;
 
+import java.awt.Image;
 import java.util.HashMap;
-
 import javax.swing.ImageIcon;
 
 public class Item extends Sprite {
@@ -15,7 +15,7 @@ public class Item extends Sprite {
 	   this.name = name;
 	   this.index = index;
 	   this.shared = shared;
-	   initCharacter();
+	   initItem();
    }
    
    public Item(String name, int index, boolean shared, int x, int y) {
@@ -24,10 +24,10 @@ public class Item extends Sprite {
 	   this.shared = shared;
 	   this.x = x;
 	   this.y = y;
-	   initCharacter();
+	   initItem();
    }
    
-   private void initCharacter() {
+   private void initItem() {
 	   imageMap = new HashMap<Integer, ImageIcon>();
 	   String imgLocation = "images/item/";
 	   //System.out.println(imgLocation);
@@ -42,8 +42,8 @@ public class Item extends Sprite {
 	   setSize(50, 50);
    }
    
-   public ImageIcon getImage() {
-		return imageMap.get(index);
+   public Image getImage() {
+		return imageMap.get(index).getImage();
    }
    
    public String getName() {
